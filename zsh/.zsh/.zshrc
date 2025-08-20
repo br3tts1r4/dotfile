@@ -3,6 +3,9 @@
 # NVM
 source $(brew --prefix nvm)/nvm.sh
 
+# ASDF
+source "$(brew --prefix asdf)"/libexec/asdf.sh
+
 # Set up LS_COLORS (like Ubuntu default)
 LSCOLORS=ExFxBxDxCxegedabagacad
 export LSCOLORS

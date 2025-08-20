@@ -17,5 +17,8 @@ export JAVA_HOME=$(ls -d $HOMEBREW_PROGRAMS/openjdk@17/* | sort -V | tail -n 1)
 export PYENV_HOME="$HOME/.pyenv"
 export PYENV_BIN="$PYENV_HOME/bin"
 
+# GOLANG 
+export GOPATH="$HOME/go"
+
 # GLOBAL PATH
-export PATH=$PATH:$HOMEBREW:$PYENV_BIN
+export PATH=$PATH:$HOMEBREW:$PYENV_BIN:$GOPATH

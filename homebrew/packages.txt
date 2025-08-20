@@ -11,3 +11,4 @@ openjdk@17
 pyenv
 pyenv-virtualenv
 python3
+asdf
