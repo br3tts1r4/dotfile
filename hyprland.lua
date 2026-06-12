@@ -56,14 +56,15 @@ hl.config({
         gaps_out = 8,
         border_size = 2,
         
-        -- References the top-level constants dynamically
+        -- Fixed Gradient Structure
         col = {
-            active_border = { COLOR_BORDER_ACTIVE_START, COLOR_BORDER_ACTIVE_END },
+            active_border = {
+                color = { COLOR_BORDER_ACTIVE_START, COLOR_BORDER_ACTIVE_END }
+            },
             inactive_border = COLOR_BORDER_INACTIVE,
         },
         layout = "dwindle",
     },
-
     decoration = {
         rounding = 6,
         blur = {
