@@ -56,19 +56,20 @@ hl.config({
         gaps_out = 8,
         border_size = 2,
         
-        -- Fixed Gradient Structure
+        -- Plural "colors" array matching the underlying C++ schema rules
         col = {
             active_border = {
-                color = { COLOR_BORDER_ACTIVE_START, COLOR_BORDER_ACTIVE_END }
+                colors = { COLOR_BORDER_ACTIVE_START, COLOR_BORDER_ACTIVE_END }
             },
             inactive_border = COLOR_BORDER_INACTIVE,
         },
         layout = "dwindle",
     },
+
     decoration = {
         rounding = 6,
         blur = {
-            enabled = false, -- Saves ThinkPad battery capacity
+            enabled = false, -- Disables background transparency rendering to maximize battery
         },
         shadow = {
             enabled = false,
@@ -94,13 +95,13 @@ hl.bind("SUPER + C", function() hl.dispatch(hl.dsp.window.close()) end)
 hl.bind("SUPER + M", function() hl.dispatch(hl.dsp.exit()) end)
 hl.bind("SUPER + V", function() hl.dispatch(hl.dsp.window.float({ action = "toggle" })) end)
 
--- Vim Movement Keys
+-- Vim Navigation Movement Keys
 hl.bind("SUPER + h", function() hl.dispatch(hl.dsp.window.move_focus("l")) end)
 hl.bind("SUPER + l", function() hl.dispatch(hl.dsp.window.move_focus("r")) end)
 hl.bind("SUPER + k", function() hl.dispatch(hl.dsp.window.move_focus("u")) end)
 hl.bind("SUPER + j", function() hl.dispatch(hl.dsp.window.move_focus("d")) end)
 
--- Workspace Navigation (1-5 Matrix)
+-- Workspace Navigation (1-5 Matrix Loop)
 for i = 1, 5 do
     local ws_str = tostring(i)
     hl.bind("SUPER + " .. ws_str, function() hl.dispatch(hl.dsp.workspace.go(ws_str)) end)
