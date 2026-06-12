@@ -14,7 +14,6 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 -- -----------------------------------------------------------------------------
 -- 2. Monitor Setup & Screen Scaling
 -- -----------------------------------------------------------------------------
--- Configures the internal ThinkPad panel (eDP-1) with valid wrapper key names
 hl.monitor({
     name = "eDP-1",
     res = "preferred",
@@ -22,7 +21,6 @@ hl.monitor({
     scale = "1.25"
 })
 
--- Fallback rule to handle hot-plugging external monitors smoothly
 hl.monitor({
     name = ",",
     res = "preferred",
@@ -33,11 +31,10 @@ hl.monitor({
 -- -----------------------------------------------------------------------------
 -- 3. Automatic Startup Daemons
 -- -----------------------------------------------------------------------------
--- Fixed the nil dispatcher error by passing string commands to hl.exec
 hl.exec({
     "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP",
-    "systemctl --user start hyprpolkitagent",
-    "hyprlauncher -d"
+    "systemctl --user start hyprpolkitagent"
+    -- Note: hyprlauncher removed here since it is not installed in your minimal core base
 })
 
 -- -----------------------------------------------------------------------------
@@ -46,12 +43,12 @@ hl.exec({
 hl.input({
     kb_layout = "us",
     follow_mouse = 1,
-    sensitivity = 0, -- Keep mouse acceleration neutral (-1.0 to 1.0)
+    sensitivity = 0, 
 
     touchpad = {
-        natural_scroll = true,       -- True multi-touch scrolling direction
-        tap_to_click = true,         -- No heavy physical button clicks required
-        disable_while_typing = true, -- Prevents cursor jumps while compiling/writing code
+        natural_scroll = true,       
+        tap_to_click = true,         
+        disable_while_typing = true, 
     }
 })
 
@@ -59,40 +56,44 @@ hl.input({
 -- 5. Look & Feel (Clean Professional Minimalist)
 -- -----------------------------------------------------------------------------
 hl.general({
-    gaps_in = 4,              -- Tight, space-conscious inner gaps between windows
-    gaps_out = 8,              -- Outer workspace border padding
+    gaps_in = 4,              
+    gaps_out = 8,              
     border_size = 2,
-    col_active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg", -- Subtle cyan gradient
+    col_active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg", 
     col_inactive_border = "rgba(595959aa)",
-    layout = "dwindle",       -- Traditional dynamic layout tiling scheme
+    layout = "dwindle",       
 })
 
 hl.decoration({
-    rounding = 6,              -- Crisp, slightly rounded frame corners
+    rounding = 6,              
     blur = {
-        enabled = false,      -- Bypassed to save background battery processing power
+        enabled = false,      
     },
     shadow = {
-        enabled = false,     -- Clean flat visual appearance
+        enabled = false,     
     }
 })
 
 hl.animations({
-    enabled = true,           -- Snappy transitions without feeling sluggish
+    enabled = true,           
     bezier = { "myBezier", "0.05, 0.9, 0.1, 1.05" },
-    animation = { "windows", "1, 5, myBezier" },
-    animation = { "workspaces", "1, 4, default" },
+    -- Fixed duplicate key overriding issue by nesting rules cleanly inside an array block
+    rules = {
+        { "windows", "1, 5, myBezier" },
+        { "workspaces", "1, 4, default" }
+    }
 })
 
 -- -----------------------------------------------------------------------------
 -- 6. Core Keybindings
 -- -----------------------------------------------------------------------------
 -- Application Execution Shortcuts
-hl.bind("n", "SUPER", "Q", hl.dsp.exec_cmd("kitty"))              -- Spawn terminal
-hl.bind("n", "SUPER", "R", hl.dsp.exec_cmd("hyprlauncher"))       -- Toggle App Menu
-hl.bind("n", "SUPER", "C", hl.dsp.close_window())                  -- Close focused frame
-hl.bind("n", "SUPER", "M", hl.dsp.exit())                         -- Force logout session
-hl.bind("n", "SUPER", "V", hl.dsp.toggle_floating())              -- Put window in floating mode
+hl.bind("n", "SUPER", "Q", hl.dsp.exec_cmd("kitty"))              
+-- Replaced unavailable hyprlauncher with a fallback minimal system runner via kitty
+hl.bind("n", "SUPER", "R", hl.dsp.exec_cmd("kitty --class=launcher -e sh -c 'compgen -c | sort -u | fzf | xargs -r hyprctl dispatch exec'"))
+hl.bind("n", "SUPER", "C", hl.dsp.close_window())                  
+hl.bind("n", "SUPER", "M", hl.dsp.exit())                         
+hl.bind("n", "SUPER", "V", hl.dsp.toggle_floating())              
 
 -- Focus Movement Keybindings (Vim keys)
 hl.bind("n", "SUPER", "h", hl.dsp.move_focus("l"))
@@ -109,11 +110,11 @@ end
 -- -----------------------------------------------------------------------------
 -- 7. ThinkPad Hardware Functional Keys (Fn)
 -- -----------------------------------------------------------------------------
--- Audio Control (Using modern PipeWire paths)
+-- Audio Control (Using modern PipeWire paths via wpctl)
 hl.bind("l", "XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))
 hl.bind("le", "XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"))
 hl.bind("le", "XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
 
--- Backlight Control (Requires brightnessctl package)
+-- Backlight Control (Requires brightnessctl package installed via pacman)
 hl.bind("le", "XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +5%"))
 hl.bind("le", "XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"))
