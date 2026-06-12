@@ -6,7 +6,6 @@
 -- -----------------------------------------------------------------------------
 -- 1. Hardware & Environment Initialization
 -- -----------------------------------------------------------------------------
--- Direct VA-API video decoding entirely to the open-source AMD Radeon driver
 hl.env("LIBVA_DRIVER_NAME", "radeonsi")
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
@@ -15,20 +14,31 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 -- -----------------------------------------------------------------------------
 -- 2. Monitor Setup & Screen Scaling
 -- -----------------------------------------------------------------------------
--- Configures the internal ThinkPad panel (eDP-1) with a comfortable 1.25x scaling factor
-hl.monitor({ "eDP-1", "preferred", "auto", "1.25" })
--- Fallback rule to handle hot-plugging external 1080p or 4K monitors smoothly
-hl.monitor({ ",", "preferred", "auto", "1" })
+-- Configures the internal ThinkPad panel (eDP-1) with valid wrapper key names
+hl.monitor({
+    name = "eDP-1",
+    res = "preferred",
+    pos = "auto",
+    scale = "1.25"
+})
+
+-- Fallback rule to handle hot-plugging external monitors smoothly
+hl.monitor({
+    name = ",",
+    res = "preferred",
+    pos = "auto",
+    scale = "1"
+})
 
 -- -----------------------------------------------------------------------------
 -- 3. Automatic Startup Daemons
 -- -----------------------------------------------------------------------------
--- Export session data to systemd so screen sharing portals initialize cleanly
-hl.dsp.exec_once("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
--- Start your authorization agent for admin/root password prompts
-hl.dsp.exec_once("systemctl --user start hyprpolkitagent")
--- Pre-cache your first-party application menu background service
-hl.dsp.exec_once("hyprlauncher -d")
+-- Fixed the nil dispatcher error by passing string commands to hl.exec
+hl.exec({
+    "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP",
+    "systemctl --user start hyprpolkitagent",
+    "hyprlauncher -d"
+})
 
 -- -----------------------------------------------------------------------------
 -- 4. Inputs & Trackpad Sensitivity
