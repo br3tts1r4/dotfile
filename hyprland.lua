@@ -16,19 +16,19 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 -- 2. Monitor Setup & Screen Scaling
 -- -----------------------------------------------------------------------------
 -- Configures the internal ThinkPad panel (eDP-1) with a comfortable 1.25x scaling factor
-hl.monitor("eDP-1", "preferred", "auto", "1.25")
+hl.monitor({ "eDP-1", "preferred", "auto", "1.25" })
 -- Fallback rule to handle hot-plugging external 1080p or 4K monitors smoothly
-hl.monitor(",", "preferred", "auto", "1")
+hl.monitor({ ",", "preferred", "auto", "1" })
 
 -- -----------------------------------------------------------------------------
 -- 3. Automatic Startup Daemons
 -- -----------------------------------------------------------------------------
 -- Export session data to systemd so screen sharing portals initialize cleanly
-hl.exec_once("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+hl.dsp.exec_once("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 -- Start your authorization agent for admin/root password prompts
-hl.exec_once("systemctl --user start hyprpolkitagent")
+hl.dsp.exec_once("systemctl --user start hyprpolkitagent")
 -- Pre-cache your first-party application menu background service
-hl.exec_once("hyprlauncher -d")
+hl.dsp.exec_once("hyprlauncher -d")
 
 -- -----------------------------------------------------------------------------
 -- 4. Inputs & Trackpad Sensitivity
@@ -50,7 +50,7 @@ hl.input({
 -- -----------------------------------------------------------------------------
 hl.general({
     gaps_in = 4,              -- Tight, space-conscious inner gaps between windows
-    gaps_out = 8,             -- Outer workspace border padding
+    gaps_out = 8,              -- Outer workspace border padding
     border_size = 2,
     col_active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg", -- Subtle cyan gradient
     col_inactive_border = "rgba(595959aa)",
@@ -58,7 +58,7 @@ hl.general({
 })
 
 hl.decoration({
-    rounding = 6,             -- Crisp, slightly rounded frame corners
+    rounding = 6,              -- Crisp, slightly rounded frame corners
     blur = {
         enabled = false,      -- Bypassed to save background battery processing power
     },
@@ -80,7 +80,7 @@ hl.animations({
 -- Application Execution Shortcuts
 hl.bind("n", "SUPER", "Q", hl.dsp.exec_cmd("kitty"))              -- Spawn terminal
 hl.bind("n", "SUPER", "R", hl.dsp.exec_cmd("hyprlauncher"))       -- Toggle App Menu
-hl.bind("n", "SUPER", "C", hl.dsp.close_window())                 -- Close focused frame
+hl.bind("n", "SUPER", "C", hl.dsp.close_window())                  -- Close focused frame
 hl.bind("n", "SUPER", "M", hl.dsp.exit())                         -- Force logout session
 hl.bind("n", "SUPER", "V", hl.dsp.toggle_floating())              -- Put window in floating mode
 
