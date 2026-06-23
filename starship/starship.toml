@@ -1,0 +1,142 @@
+# ─────────────────────────────────────────────
+# Starship — "Minimal Arc" prompt
+# Constraints: 256-color ANSI only, ASCII symbols, no Nerd Fonts
+# Target: zsh on kmscon/TTY2 (Fira Code, Arch Linux)
+# ─────────────────────────────────────────────
+
+# Top-level format: left-side prompt layout
+# Each $module maps to a [module] section below
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$python\
+$rust\
+$nodejs\
+$ruby\
+$golang\
+$cmd_duration\
+$line_break\
+$character"""
+
+# Disable right-side prompt (keeps TTY rendering clean)
+right_format = ""
+
+# Add a blank line before each prompt for breathing room
+add_newline = true
+
+# ─── Directory ────────────────────────────────
+[directory]
+# Truncate deep paths; show last 3 segments
+truncation_length = 3
+truncate_to_repo = true          # truncate to git root when inside a repo
+style = "bold fg:33"             # 256-color: blue
+format = "[$path]($style) "
+# Replace home dir with ~ (default, explicit here for clarity)
+home_symbol = "~"
+
+# ─── Username ─────────────────────────────────
+[username]
+# Only show username when SSH'd in or root — keeps local prompt clean
+show_always = false
+style_user = "fg:148"            # 256-color: yellow-green
+style_root = "bold fg:160"       # 256-color: red (root warning)
+format = "[$user]($style) "
+
+# ─── Hostname ─────────────────────────────────
+[hostname]
+# Only show when SSH'd in
+ssh_only = true
+style = "fg:244"                 # 256-color: mid-grey
+format = "[@$hostname]($style) "
+
+# ─── Git branch ───────────────────────────────
+[git_branch]
+style = "fg:178"                 # 256-color: gold/amber
+format = "[($branch)]($style) "
+# ASCII alternative to the branch glyph
+symbol = "git:"
+truncation_length = 20           # cap long branch names
+
+# ─── Git status ───────────────────────────────
+[git_status]
+style = "fg:160"                 # 256-color: red
+# ASCII-only indicators — no Unicode arrows or dots
+format = '([$all_status$ahead_behind]($style) )'
+ahead   = "^${count}"           # ahead of remote
+behind  = "v${count}"           # behind remote
+diverged = "~${ahead_count}^${behind_count}"
+staged  = "+${count}"
+modified = "!${count}"
+untracked = "?${count}"
+deleted = "x${count}"
+conflicted = "=${count}"
+stashed = "s${count}"
+
+# ─── Python ───────────────────────────────────
+[python]
+style = "fg:33"                  # 256-color: blue
+format = "[py:$version( \\($virtualenv\\))]($style) "
+# Only show when a relevant file is present (pyproject.toml, .python-version, etc.)
+detect_files = ["pyproject.toml", "requirements.txt", ".python-version", "Pipfile"]
+
+# ─── Rust ─────────────────────────────────────
+[rust]
+style = "fg:166"                 # 256-color: burnt orange
+format = "[rs:$version]($style) "
+
+# ─── Node.js / TypeScript / JavaScript ───────
+# Starship has no separate TS/JS module — Node covers all three.
+# detect_extensions triggers on .ts, .tsx, .js, .jsx, .mjs, .cjs files too.
+[nodejs]
+style = "fg:71"                  # 256-color: muted green
+format = "[node:$version]($style) "
+detect_files = ["package.json", ".nvmrc", ".node-version"]
+detect_extensions = ["js", "mjs", "cjs", "jsx", "ts", "tsx", "mts", "cts"]
+
+# ─── Ruby ─────────────────────────────────────
+[ruby]
+style = "fg:160"                 # 256-color: red (classic Ruby red)
+format = "[rb:$version]($style) "
+detect_files = ["Gemfile", ".ruby-version", "Rakefile"]
+detect_extensions = ["rb", "gemspec"]
+
+# ─── Go ───────────────────────────────────────
+[golang]
+style = "fg:74"                  # 256-color: steel blue (Go brand-adjacent)
+format = "[go:$version]($style) "
+detect_files = ["go.mod", "go.sum", "go.work"]
+detect_extensions = ["go"]
+
+# ─── Command duration ─────────────────────────
+[cmd_duration]
+# Show elapsed time for commands taking longer than 2s
+min_time = 2_000
+style = "fg:244"                 # 256-color: grey
+format = "[${duration}]($style) "
+show_milliseconds = false
+
+# ─── Prompt character ─────────────────────────
+[character]
+# ASCII chevron — clean, no Unicode dependency
+success_symbol = "[>](bold fg:71)"   # green on success
+error_symbol   = "[>](bold fg:160)"  # red on error
+vimcmd_symbol  = "[<](bold fg:178)"  # gold when in vi-normal mode
+
+# ─── Modules disabled (keep prompt minimal) ───
+[package]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[time]
+disabled = true

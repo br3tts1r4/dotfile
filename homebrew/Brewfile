@@ -1,0 +1,55 @@
+# Brewfile for General Development
+
+# Taps
+tap "homebrew/bundle"
+tap "homebrew/services"
+
+# C Compiler Tools
+brew "gcc"                          # GNU compiler (some gems need this over clang)
+brew "make"                         # Build automation
+brew "cmake"                        # Cross-platform build system (some gems)
+brew "automake"                     # Tool for generating GNU-compliant Makefiles
+brew "autoconf"                     # Automatic configure script builder
+brew "libtool"                      # Generic library support script
+
+# Compressing Tools
+brew "zlib"                         # Data-compression library
+brew "webp"                         # Google's modern web image format utility
+
+# Utility Tools
+brew "stow"                         # Symbolic link manager
+brew "ffmpeg"                       # Video tools
+brew "wget"                         # File retriever
+brew "imagemagick"                  # Image edit cli
+brew "vips"                         # Faster image processing (for image_processing gem)
+brew "jq"                           # JSON processor
+brew "tree"                         # Displays directories and files as a visual
+brew "pstree"                       # Displays running processes as a tree diagram
+brew "pv"                           # Pipe Viewer - monitors the progress of data flowing through a shell pipeline
+
+# Core Development Tools
+brew "git"                          # Version control
+brew "lazygit"                      # Git tools
+brew "neovim"                       # Editor
+brew "zsh"                          # Up-to-date version of the Z shell
+brew "tmux"                         # Terminal multiplexer
+brew "direnv"                       # Environment switcher for projects
+brew "mise"                         # Version management
+
+# Development Tools (Optional but recommended)
+brew "overmind"                     # Process manager for Procfile-based apps (Foreman alternative)
+brew "watchman"                     # File-watching service
+brew "nodemon"                      # Utility that automatically restarts Node.js applications when file changes
+
+# Shell Prompt Tools
+brew "starship"                     # Shell customizable prompt
+
+# Core Build Dependencies for Ruby
+# These are essential for compiling Ruby and native gem extensions
+brew "openssl@3"                    # SSL/TLS toolkit (many gems need this)
+brew "readline"                     # For IRB/Rails console
+brew "libyaml"                      # YAML parsing (required by Ruby)
+brew "gmp"                          # GNU multiple precision arithmetic library
+brew "bison"                        # Parser generator (newer Ruby versions)
+brew "pkg-config"                   # Helper tool for compiling applications
+brew "libpq"                        # PostgreSQL client library (for pg gem)

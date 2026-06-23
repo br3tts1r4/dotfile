@@ -1,0 +1,101 @@
+# ---------------------------------------------------------------------------
+# General configs
+# ---------------------------------------------------------------------------
+[core]
+	editor = nvim
+	autocrlf = input
+	whitespace = fix,trailing-space,space-before-tab
+	pager = less -FRX
+
+[init]
+	defaultBranch = master
+
+[pull]
+	rebase = true
+
+[rebase]
+	autosquash = true
+	autostash = true
+
+[merge]
+	conflictstyle = diff3
+	tool = vimdiff
+
+[diff]
+	algorithm = histogram
+	colorMoved = zebra
+
+[fetch]
+	prune = true
+	prunetags = true
+
+[push]
+	default = current
+	autoSetupRemote = true
+
+[status]
+	short = true
+	branch = true
+
+[log]
+	oneline = false
+	date = iso
+
+[color]
+	ui = auto
+
+[color "branch"]
+	current = yellow bold
+	local   = green
+	remote  = red
+
+[color "diff"]
+	meta       = yellow bold
+	frag       = magenta bold
+	old        = red bold
+	new        = green bold
+	whitespace = red reverse
+
+[alias]
+	st   = status
+	co   = checkout
+	br   = branch
+	lg   = log --graph --oneline --decorate --all
+	lf   = log --pretty=fuller
+	undo = reset HEAD~1 --mixed
+	wip  = !git add -A && git commit -m 'wip: checkpoint'
+	pub  = push -u origin HEAD
+
+# ---------------------------------------------------------------------------
+# Identity config
+# ---------------------------------------------------------------------------
+# Order matters: default loads first; includeIf overrides when remote matches.
+# Requires Git 2.36+. Repo needs remote.origin.url set (git remote add origin …).
+
+# Fallback default identity
+[include]
+	path = ~/.config/git/gitdefault.inc
+
+# GitHub
+[includeIf "hasconfig:remote.origin.url:https://github.com/"]
+	path = ~/.config/git/github.inc
+[includeIf "hasconfig:remote.origin.url:git@github.com:"]
+	path = ~/.config/git/github.inc
+[includeIf "hasconfig:remote.origin.url:ssh://git@github.com/"]
+	path = ~/.config/git/github.inc
+
+# Bitbucket
+[includeIf "hasconfig:remote.origin.url:https://bitbucket.org/"]
+	path = ~/.config/git/bitbucket.inc
+[includeIf "hasconfig:remote.origin.url:git@bitbucket.org:"]
+	path = ~/.config/git/bitbucket.inc
+[includeIf "hasconfig:remote.origin.url:ssh://git@bitbucket.org/"]
+	path = ~/.config/git/bitbucket.inc
+
+# GitLab
+[includeIf "hasconfig:remote.origin.url:https://gitlab.com/"]
+	path = ~/.config/git/gitlab.inc
+[includeIf "hasconfig:remote.origin.url:git@gitlab.com:"]
+	path = ~/.config/git/gitlab.inc
+[includeIf "hasconfig:remote.origin.url:ssh://git@gitlab.com/"]
+	path = ~/.config/git/gitlab.inc

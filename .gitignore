@@ -1,1 +1,8 @@
+# MCOS file
 *.DS_Store
+
+# Git identities
+gitdefault.inc
+github.inc
+gitlab.inc
+bitbucket.inc
