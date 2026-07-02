@@ -10,6 +10,3 @@ alias vi="nvim"
 
 # Stow Alias for dotfiles sync
 alias dotsync="stow --target=$HOME/.config ."
-
-# Starship Prompt
-eval "$(starship init zsh)"
