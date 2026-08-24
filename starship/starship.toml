@@ -1,0 +1,102 @@
+# ~/.config/starship.toml
+#
+# Two-line prompt. Palette matches the rest of the desktop
+# (dotfiles/waybar/colors.css, dotfiles/hypr/styles.lua).
+#
+#   ~/Workshop/me/linux-runbook master (+3)              2.4s · 14:22
+#   ❯
+
+####################################### Prompt Style #########################################
+format = """
+$directory$git_branch${custom.git_changes} $fill$cmd_duration$time
+$character"""
+
+####################################### Prompt Configs #######################################
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+# Blank line between prompts
+add_newline = true
+
+####################################### Custom Colours #######################################
+palette = 'mocha'
+
+[palettes.mocha]
+overlay  = '#6c7086'
+blue     = '#89b4fa'
+lavender = '#b4befe'
+mauve    = '#cba6f7'
+green    = '#a6e3a1'
+peach    = '#fab387'
+red      = '#f38ba8'
+
+########################################## Elements ##########################################
+[directory]
+style = "bold blue"
+repo_root_style = "bold lavender"
+
+# Keeps the full path visible by extending the threshold to 99 directories deep
+truncation_length = 99
+truncate_to_repo = false
+
+read_only = " ro"
+read_only_style = "red"
+
+format = "[$path]($style)[$read_only]($read_only_style)"
+# Same as the default but without its trailing space, so the branch spacing
+# is identical inside and outside a repo
+repo_root_format = "[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style)"
+
+# Invisible spacer that right-aligns the clock
+[fill]
+symbol = ' '
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold peach)"
+
+[cmd_duration]
+min_time = 2_000
+style = "overlay"
+format = "[$duration · ]($style)"
+
+[time]
+disabled = false
+style = "overlay"
+format = "[$time]($style)"
+time_format = '%H:%M'
+
+########################################## Git Tools #########################################
+[git_branch]
+symbol = ""
+style = "mauve"
+format = "[ $symbol$branch]($style)"
+
+# Counts all local changes and groups them into one single number
+[custom.git_changes]
+command = """
+changes=$(git status --porcelain 2>/dev/null | wc -l | xargs)
+if [ -n "$changes" ] && [ "$changes" -ne 0 ]; then
+    # Print the + sign here dynamically only if changes exist
+    echo -e "(+$changes)"
+fi
+"""
+when = "git rev-parse --is-inside-work-tree 2>/dev/null"
+style = "peach"
+# Optional group so a clean tree renders nothing at all, not a stray space
+format = "[( $output)]($style)"
+disabled = false
+
+######################################### Disabled ###########################################
+[package]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true

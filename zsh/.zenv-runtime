@@ -1,0 +1,42 @@
+# ~/.config/zsh/.zenv-runtime
+# XDG-dependent environment — sourced from .zshenv after XDG_* are set
+
+# Shells & Core CLI
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
+export BASH_HISTFILE="$XDG_STATE_HOME/bash/history"
+export LESSHISTFILE="$XDG_STATE_HOME/less_history"
+
+# Starship
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
+export STARSHIP_CACHE="$XDG_CACHE_HOME/starship"
+
+# Databases
+export SQLITE_HISTORY="$XDG_STATE_HOME/sqlite_history"
+export MYSQL_HISTFILE="$XDG_STATE_HOME/mysql_history"
+export PSQL_HISTORY="$XDG_STATE_HOME/psql_history"
+export REDISCLI_HISTFILE="$XDG_STATE_HOME/redis_history"
+export GDBHISTFILE="$XDG_STATE_HOME/gdb_history"
+
+# Node.js
+export NODE_REPL_HISTORY="$XDG_STATE_HOME/node_repl_history"
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+
+# Python
+export PYTHON_HISTORY="$XDG_STATE_HOME/python_history"
+export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonstartup.py"
+
+# Ruby
+export IRBRC="$XDG_CONFIG_HOME/irb/irbrc"
+export IRB_HISTORY_FILE="$XDG_STATE_HOME/irb_history"
+export PRYRC="$XDG_CONFIG_HOME/pry/pryrc"
+export GEM_HOME="$XDG_DATA_HOME/gem"
+export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem"
+
+# Go
+export GOPATH="$XDG_DATA_HOME/go"
+export GOCACHE="$XDG_CACHE_HOME/go-build"
+export GOMODCACHE="$XDG_CACHE_HOME/go-mod"
+
+# Rust
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"

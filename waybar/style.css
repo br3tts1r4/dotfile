@@ -1,0 +1,323 @@
+/* Waybar styles — GTK3 CSS (no variables, use @define-color from colors.css) */
+
+@import url("colors.css");
+
+/* Base reset. The font list is fallback order and GTK resolves it per glyph,
+   so a symbol the UI font lacks is pulled from the next font that has it.
+   Names that are not installed are simply skipped. If an icon in the bar comes
+   out blank or as an empty box, no listed font covers it — check with
+   `fc-list :charset=2600 family`. */
+* {
+  font-family: "Adwaita Sans", "DejaVu Sans", "Noto Sans Symbols 2", "FreeSans", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Transparent bar so only the islands are visible */
+window#waybar {
+  background-color: transparent;
+  color: @text;
+}
+
+window#waybar.hidden {
+  opacity: 0.0;
+}
+
+/* Islands */
+.modules-left,
+.modules-center,
+.modules-right {
+  background-color: @island;
+  border: 1px solid @hairline;
+  border-radius: 14px;
+  padding: 0 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Shared chrome for the stand-alone modules. Group leaders are excluded —
+   their group carries the outer margin instead (see the drawer section). */
+#workspaces,
+#submap,
+#window,
+#tray,
+#idle_inhibitor,
+#cpu,
+#memory,
+#network,
+#battery,
+#clock,
+#custom-power {
+  padding: 0 9px;
+  margin: 3px 1px;
+  border-radius: 10px;
+  color: @subtext1;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+#workspaces {
+  padding: 0 2px;
+}
+
+#workspaces button {
+  padding: 0 8px;
+  margin: 3px 2px;
+  border-radius: 9px;
+  color: @overlay0;
+  background-color: transparent;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+#workspaces button:hover {
+  background-color: @hover;
+  color: @text;
+}
+
+/* Open on another monitor */
+#workspaces button.visible {
+  color: @subtext0;
+}
+
+/* Focused workspace — widened pill so it reads as the anchor of the bar */
+#workspaces button.active {
+  padding: 0 14px;
+  color: @base;
+  background-color: @blue;
+}
+
+#workspaces button.urgent {
+  color: @base;
+  background-color: @red;
+}
+
+/* Hyprland submap indicator (empty when no submap is active) */
+#submap {
+  color: @peach;
+  font-weight: 700;
+}
+
+#window {
+  color: @text;
+  font-weight: 400;
+}
+
+/* ── Right-side accents ─────────────────────────────────────────────── */
+
+#idle_inhibitor {
+  color: @overlay0;
+}
+
+/* ◉ — sleep is being blocked */
+#idle_inhibitor.activated {
+  color: @yellow;
+}
+
+#cpu {
+  color: @sapphire;
+}
+
+#memory {
+  color: @lavender;
+}
+
+/* ── Slider drawers ─────────────────────────────────────────────────────
+   #brightness and #volume are the group boxes. Waybar adds .expanded while
+   the drawer is open, and tags every revealed child with the children-class
+   from config.jsonc. The leader keeps its own module id (#backlight,
+   #pulseaudio) and sits flush inside the group, so only the group has margin. */
+#brightness,
+#volume {
+  margin: 3px 1px;
+  border-radius: 10px;
+  transition: background-color 200ms ease;
+}
+
+#brightness:hover,
+#volume:hover {
+  background-color: @hover;
+}
+
+#brightness.expanded,
+#volume.expanded {
+  background-color: @surface0;
+}
+
+/* Breathing room around each revealed control */
+#brightness .brightness-child,
+#volume .volume-child {
+  padding: 0 4px;
+}
+
+/* Group leaders — always visible, and they take the click that opens a drawer */
+#backlight,
+#pulseaudio {
+  padding: 0 9px;
+  margin: 0;
+  border-radius: 10px;
+  transition: color 200ms ease;
+}
+
+#backlight {
+  color: @yellow;
+}
+
+/* Volume leader is text ("vol 45%"), so it takes the accent colour. Swap it
+   for colour emoji and these colours stop applying — emoji are bitmaps. */
+#pulseaudio {
+  color: @teal;
+}
+
+#pulseaudio.muted,
+#pulseaudio.sink-muted {
+  color: @red;
+}
+
+/* Sliders are GTK scales sized only from CSS — without min-width/min-height
+   on the trough they collapse and never render. */
+#backlight-slider,
+#pulseaudio-slider {
+  padding: 0 4px;
+  margin: 0;
+}
+
+#backlight-slider trough,
+#pulseaudio-slider trough {
+  min-width: 110px;
+  min-height: 6px;
+  border-radius: 3px;
+  background-color: @surface1;
+}
+
+/* Filled portion — matches the colour of its leader icon */
+#backlight-slider highlight {
+  min-height: 6px;
+  border-radius: 3px;
+  background-color: @yellow;
+}
+
+#pulseaudio-slider highlight {
+  min-height: 6px;
+  border-radius: 3px;
+  background-color: @teal;
+}
+
+/* Muted sink: the bar drops to zero, so grey it out as well */
+#pulseaudio-slider.muted highlight {
+  background-color: @overlay0;
+}
+
+/* Drag handle */
+#backlight-slider slider,
+#pulseaudio-slider slider {
+  min-width: 12px;
+  min-height: 12px;
+  border-radius: 6px;
+  background-color: @text;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Revealed chips: the brightness readout and the volume mute toggle. */
+#backlight.percent,
+#pulseaudio.mute {
+  padding: 0 7px;
+  margin: 0;
+  border-radius: 8px;
+  color: @subtext1;
+  font-weight: 600;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+#pulseaudio.mute:hover {
+  background-color: @hover;
+  color: @text;
+}
+
+#pulseaudio.mute.muted {
+  color: @red;
+}
+
+#network {
+  color: @green;
+}
+
+#network.disconnected,
+#network.disabled {
+  color: @red;
+}
+
+#battery {
+  color: @green;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @teal;
+}
+
+#battery.warning:not(.charging) {
+  color: @peach;
+}
+
+/* Critical is a filled pill so it is impossible to miss */
+#battery.critical:not(.charging) {
+  color: @base;
+  background-color: @red;
+}
+
+#clock {
+  color: @text;
+  font-weight: 600;
+}
+
+#custom-power {
+  color: @red;
+}
+
+#custom-power:hover {
+  color: @base;
+  background-color: @red;
+}
+
+#tray {
+  padding: 0 6px;
+}
+
+#tray menu {
+  background-color: @mantle;
+  color: @text;
+  border: 1px solid @hairline;
+  border-radius: 10px;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+/* Hover feedback for the clickable stand-alone modules */
+#cpu:hover,
+#memory:hover,
+#network:hover,
+#battery:hover,
+#clock:hover,
+#idle_inhibitor:hover {
+  background-color: @hover;
+}
+
+tooltip {
+  background-color: @mantle;
+  border: 1px solid @hairline;
+  border-radius: 10px;
+}
+
+tooltip label {
+  color: @text;
+  padding: 4px;
+}
