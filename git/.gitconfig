@@ -1,5 +1,0 @@
-[user]
-    email = <EMAIL>
-    user = <USERNAME>
-[alias]
-    logg = log --all --decorate --oneline --graph
