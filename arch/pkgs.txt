@@ -34,7 +34,6 @@ hyprland
 xdg-desktop-portal-hyprland
 hyprpaper
 hyprpolkitagent
-waybar
 swaync
 rofi
 kitty

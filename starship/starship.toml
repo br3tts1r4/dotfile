@@ -1,7 +1,6 @@
 # ~/.config/starship.toml
 #
 # Two-line prompt. Palette matches the rest of the desktop
-# (dotfiles/waybar/colors.css, dotfiles/hypr/styles.lua).
 #
 #   ~/Workshop/me/linux-runbook master (+3)              2.4s · 14:22
 #   ❯
